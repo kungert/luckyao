@@ -3,15 +3,17 @@
 #include <iostream>
 #include <string>
 
-// 时间类
-class Timestamp
-{
-public:
-    Timestamp();
-    explicit Timestamp(int64_t microSecondsSinceEpoch);
-    static Timestamp now();
-    std::string toString() const;
+namespace luckyao
+{ // 时间类
+    class Timestamp
+    {
+    public:
+        Timestamp();
+        explicit Timestamp(int64_t microSecondsSinceEpoch);
+        static Timestamp now();
+        std::string toString() const;
 
-private:
-    int64_t m_microseconds_since_epoch;
-};
+    private:
+        int64_t m_microsecondsSinceEpoch;
+    };
+}
