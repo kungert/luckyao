@@ -12,6 +12,7 @@ namespace luckyao
         explicit Timestamp(int64_t microSecondsSinceEpoch);
         static Timestamp now();
         std::string toString() const;
+        std::string toString(std::string format) const;
 
     private:
         int64_t m_microsecondsSinceEpoch;
