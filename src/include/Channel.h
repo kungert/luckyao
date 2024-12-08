@@ -1,13 +1,14 @@
 #pragma once
 
 #include "Timestamp.h"
+#include "Uncopyable.h"
 #include <functional>
 #include <memory>
 
 namespace luckyao
 {
     class EventLoop;
-    class Channel
+    class Channel : Uncopyable
     {
     public:
         using EventCallback = std::function<void()>;
@@ -25,6 +26,49 @@ namespace luckyao
 
         // 防止当channel被手动remove掉，channel还在执行回调操作
         void tie(const std::shared_ptr<void> &);
+
+        int fd() const { return m_fd; }
+        int events() const { return m_events; }
+        void setRecvEvents(int revt) { m_recvEvents = revt; }
+
+        // 设置fd相应的事件状态
+        void enableReading()
+        {
+            m_events |= kReadEvent;
+            update();
+        }
+        void disableReading()
+        {
+            m_events &= ~kReadEvent;
+            update();
+        }
+        void enableWriting()
+        {
+            m_events |= kWriteEvent;
+            update();
+        }
+        void disableWriting()
+        {
+            m_events &= ~kWriteEvent;
+            update();
+        }
+        void disableAll()
+        {
+            m_events = kNoneEvent;
+            update();
+        }
+
+        // 返回fd当前的事件状态
+        bool isNoneEvent() const { return m_events == kNoneEvent; }
+        bool isWriting() const { return m_events & kWriteEvent; }
+        bool isReading() const { return m_events & kReadEvent; }
+
+        int index() { return m_index; }
+        void setIndex(int idx) { m_index = idx; }
+
+        // one loop per thread
+        EventLoop *ownerLoop() { return m_loop; }
+        void remove();
 
     private:
         void update();

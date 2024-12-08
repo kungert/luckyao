@@ -16,4 +16,5 @@ add_executable(example  ${SRC_LIST})
 
 target_link_libraries(example 
     luckyao
+    pthread
 )
