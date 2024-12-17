@@ -10,7 +10,7 @@
 #include "EventLoopThreadPool.h"
 #include "Callbacks.h"
 #include "TcpConnection.h"
-#include "Buffer.h"
+#include "ByteBuffer.h"
 
 #include <functional>
 #include <string>

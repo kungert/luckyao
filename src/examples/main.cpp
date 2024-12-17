@@ -48,7 +48,7 @@ private:
 
     // 可读写事件回调
     void onMessage(const TcpConnectionPtr &conn,
-                   Buffer *buf,
+                   ByteBuffer *buf,
                    Timestamp time)
     {
         std::string msg = buf->retrieveAllAsString();

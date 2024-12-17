@@ -3,7 +3,7 @@
 #include "Uncopyable.h"
 #include "InetAddress.h"
 #include "Callbacks.h"
-#include "Buffer.h"
+#include "ByteBuffer.h"
 #include "Timestamp.h"
 
 #include <memory>
@@ -112,7 +112,7 @@ namespace luckyao
         CloseCallback m_closeCallback;
         size_t m_highWaterMark;
 
-        Buffer m_inputBuffer;  // 接收数据的缓冲区
-        Buffer m_outputBuffer; // 发送数据的缓冲区
+        ByteBuffer m_inputBuffer;  // 接收数据的缓冲区
+        ByteBuffer m_outputBuffer; // 发送数据的缓冲区
     };
 } // namespace luckyao
