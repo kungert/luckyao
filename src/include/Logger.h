@@ -2,7 +2,6 @@
 
 #include <string>
 #include <fstream>
-#include "Uncopyable.h"
 namespace luckyao
 {
     enum LogLevel
@@ -22,7 +21,7 @@ namespace luckyao
         LOG_OUT_FILE = 0x002,
 #define LOG_OUT_FILE LOG_OUT_FILE
     };
-    class Logger : public Uncopyable
+    class Logger
     {
     public:
         // 获取日志唯一的实例对象
@@ -35,11 +34,12 @@ namespace luckyao
         void open(const std::string &filename);
         void close();
         void enableOutFile() { m_outTypes |= LOG_OUT_FILE; };
+        void rotate();
 
     private:
         Logger();
         ~Logger();
-        void rotate();
+        void keepDirFileCount(std::size_t count = 4);
 
     private:
         int m_logLevel;

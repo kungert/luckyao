@@ -3,6 +3,11 @@
 
 #include <iostream>
 #include <sstream>
+#include <filesystem>
+#include <algorithm>
+#include <vector>
+#include <sys/stat.h>
+#include <dirent.h>
 
 using namespace luckyao;
 using namespace std;
@@ -60,7 +65,6 @@ void Logger::log(std::string msg)
     if ((m_outTypes & LOG_OUT_STDOUT) == LOG_OUT_STDOUT)
         cout << os.str();
 
-    cout << os.str();
     // cout << "\033[0m";
 
     if ((m_outTypes & LOG_OUT_FILE) == LOG_OUT_FILE)
@@ -105,4 +109,32 @@ void Logger::rotate()
         throw std::logic_error("rename log file failed: ");
     }
     open(m_filename);
+    keepDirFileCount();
+}
+void Logger::keepDirFileCount(std::size_t count)
+{
+    std::filesystem::path filePath(m_filename);
+    std::string filename = filePath.filename().string();
+    std::cout << "filename:" << filename << std::endl;
+    std::vector<std::string>
+        csvFiles;
+    struct dirent *entry;
+    DIR *dir = opendir(filePath.parent_path().string().c_str());
+    while ((entry = readdir(dir)) != nullptr)
+    {
+        std::string fileName = entry->d_name;
+        if (fileName != filename && fileName.find(filename) != std::string::npos)
+        {
+            csvFiles.push_back(fileName);
+        }
+    }
+    closedir(dir);
+    if (csvFiles.size() < count)
+        return;
+    std::sort(csvFiles.begin(), csvFiles.end());
+    for (const auto &name : csvFiles)
+    {
+        std::cout << name << std::endl;
+    }
+    remove(std::filesystem::path(filePath.parent_path().string() + "/" + csvFiles[0]).c_str());
 }
