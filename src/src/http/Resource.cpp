@@ -50,7 +50,7 @@ bool Resource::readFile()
     // 指定定位到文件开始
     file.seekg(0, std::ios::beg);
 
-    m_data = new byte[m_size];
+    m_data = new char[m_size];
     memset(m_data, '\0', m_size);
     file.read((char *)m_data, m_size);
     return true;

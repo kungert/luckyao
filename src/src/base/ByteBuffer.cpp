@@ -35,6 +35,12 @@ std::size_t ByteBuffer::bytesRemaining()
 {
     return size() - m_rpos;
 }
+void luckyao::ByteBuffer::clear()
+{
+    m_rpos = 0;
+    m_wpos = 0;
+    memset(begin(), '\0', size());
+}
 /**
  * 从fd上读取数据  Poller工作在LT模式
  * Buffer缓冲区是有大小的！ 但是从fd上读数据的时候，却不知道tcp数据最终的大小

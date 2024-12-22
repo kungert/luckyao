@@ -1,8 +1,5 @@
 #include <iostream>
-#include "Timestamp.h"
-#include "Logger.h"
-#include "Thread.h"
-#include "TcpServer.h"
+#include "luckyao.h"
 
 #include <string>
 #include <functional>
@@ -48,10 +45,10 @@ private:
 
     // 可读写事件回调
     void onMessage(const TcpConnectionPtr &conn,
-                   ByteBuffer *buf,
+                   ByteBuffer &buf,
                    Timestamp time)
     {
-        std::string msg = buf->retrieveAllAsString();
+        std::string msg = buf.retrieveAllAsString();
         conn->send(msg);
         conn->shutdown(); // 写端   EPOLLHUP =》 closeCallback_
     }

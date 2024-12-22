@@ -15,7 +15,7 @@ namespace luckyao
     using CloseCallback = std::function<void(const TcpConnectionPtr &)>;
     using WriteCompleteCallback = std::function<void(const TcpConnectionPtr &)>;
     using MessageCallback = std::function<void(const TcpConnectionPtr &,
-                                               ByteBuffer *,
+                                               ByteBuffer &,
                                                Timestamp)>;
     using HighWaterMarkCallback = std::function<void(const TcpConnectionPtr &, size_t)>;
 } // namespace name

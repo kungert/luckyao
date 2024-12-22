@@ -4,7 +4,6 @@
 
 namespace luckyao
 {
-    typedef unsigned char byte;
     class Resource
     {
     public:
@@ -14,7 +13,7 @@ namespace luckyao
         bool readFile();
         // Setters
 
-        void setData(byte *d, unsigned int s)
+        void setData(char *d, unsigned int s)
         {
             if (m_data)
             {
@@ -46,7 +45,7 @@ namespace luckyao
             return m_bDirectory;
         }
 
-        byte *getData()
+        char *getData()
         {
             return m_data;
         }
@@ -63,7 +62,7 @@ namespace luckyao
         static std::string getExtension(std::string &path);
 
     private:
-        byte *m_data; // File m_data
+        char *m_data; // File m_data
         unsigned int m_size;
         std::string m_mimeType;
         std::string m_location; // Disk path m_location within the server

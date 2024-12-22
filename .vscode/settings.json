@@ -74,6 +74,8 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "bit": "cpp",
-        "*.txx": "cpp"
+        "*.txx": "cpp",
+        "codecvt": "cpp",
+        "filesystem": "cpp"
     }
 }
