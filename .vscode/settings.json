@@ -76,6 +76,13 @@
         "bit": "cpp",
         "*.txx": "cpp",
         "codecvt": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "csetjmp": "cpp",
+        "cuchar": "cpp",
+        "forward_list": "cpp",
+        "regex": "cpp",
+        "scoped_allocator": "cpp",
+        "valarray": "cpp",
+        "charconv": "cpp"
     }
 }

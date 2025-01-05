@@ -4,6 +4,7 @@
 #include "base/Timestamp.h"
 #include "base/Logger.h"
 #include "base/Thread.h"
+#include "template/HtmlTemplate.h"
 
 #include <string>
 #include <functional>
@@ -70,6 +71,29 @@ int main()
     // t.start();
     // t.join();
 
+    HtmlTemplate html("username:{{ username }}\n"
+                      "parm.list[1][2]: {{parm.list[1][2] }} \n"
+                      "parm.key: {{ parm.key }}",
+                      1); // 参数1表示传入的是模版字符串，0表示传入的是文件名，默认为0
+
+    Json tmp1(JsonType::Array);
+    tmp1.add(1);
+    tmp1.add(2.3);
+    tmp1.add("abcd");
+    Json tmp2(JsonType::Array);
+    tmp2.add(1);
+    tmp2.add(tmp1);
+    tmp2.add("hahaha");
+    Json obj = {
+        {"username", 1234},
+        {"parm", {
+                     {"key", "cde"},
+                     {"list", Json::array({1, Json::array({1, 2.3, "abcd"}), "hahaha"})},
+                 }}};
+    html.setValue(obj);
+    std::cout << html.render() << std::endl
+              << std::endl;
+    return 0;
     EventLoop loop;
     InetAddress addr(8000);
     EchoServer server(&loop, addr, "EchoServer-01"); // Acceptor non-blocking listenfd  create bind

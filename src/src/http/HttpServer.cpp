@@ -18,7 +18,7 @@ using namespace luckyao;
 using namespace std;
 
 HttpServer::HttpServer(EventLoop *loop, int threadNum, const std::string &nameArg, int nPort)
-    : m_htdocsPath("E:\\1\\ts\\wuday\\htdocs"),
+    : m_htdocsPath("E:\\1\\ts\\luckyao\\htdocs"),
       m_bStaticServer(false),
       m_loop(loop)
 {
@@ -37,8 +37,8 @@ HttpServer::HttpServer(EventLoop *loop, int threadNum, const std::string &nameAr
     m_tcpserver->setThreadNum(threadNum);
 }
 // HttpServer::HttpServer(int nPort)
-//     //: m_htdocsPath("/home/yozo1093/wuday/htdocs")
-//     : m_htdocsPath("E:\\1\\ts\\wuday\\htdocs")
+//     //: m_htdocsPath("/home/yozo1093/luckyao/htdocs")
+//     : m_htdocsPath("E:\\1\\ts\\luckyao\\htdocs")
 // {
 //     SockAddress addr(nPort);
 //     string name = "HttpServer";
@@ -179,7 +179,7 @@ void HttpServer::onMessage(const TcpConnectionPtr &conn,
             {
                 resp = new Response();
                 resp->setStatus(Status(OK));
-                resp->addHeader("Content-Type", r->getMimeType());
+                resp->addHeader("Content-JsonType", r->getMimeType());
                 resp->addHeader("Content-Length", r->getSize());
                 // Only send a message body if it's a GET request. Never send a body for HEAD
                 if (req->getMethod() == Method(GET))
@@ -262,7 +262,7 @@ void HttpServer::sendStatusResponse(const TcpConnectionPtr &conn, int status, st
     memset(sdata, '\0', slen);
     strncpy_s(sdata, slen, body.c_str(), slen);*/
 
-    resp->addHeader("Content-Type", "text/plain");
+    resp->addHeader("Content-JsonType", "text/plain");
     resp->addHeader("Content-Length", slen);
     resp->addHeader("Connection", "close");
     // resp->setData((byte*)sdata, slen);
