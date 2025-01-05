@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Uncopyable.h"
-#include "Thread.h"
+#include "base/Uncopyable.h"
+#include "base/Thread.h"
 
 #include <functional>
 #include <mutex>

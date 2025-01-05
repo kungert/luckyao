@@ -243,7 +243,9 @@ namespace luckyao
         T read(std::size_t index) const
         {
             if (index + sizeof(T) <= m_buffer.size())
+            {
                 return *((T *)&m_buffer[index]);
+            }
             return 0;
         }
 

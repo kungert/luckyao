@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Timestamp.h"
-#include "Uncopyable.h"
+#include "base/Timestamp.h"
+#include "base/Uncopyable.h"
 
 #include <vector>
 #include <unordered_map>

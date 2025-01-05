@@ -10,7 +10,7 @@
 #include <string>
 #include <sstream>
 
-#include "ByteBuffer.h"
+#include "base/ByteBuffer.h"
 // Constants
 #define HTTP_VERSION_10 "HTTP/1.0"
 #define HTTP_VERSION_11 "HTTP/1.1"

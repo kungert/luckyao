@@ -13,9 +13,9 @@
 #include <functional>
 #include <stdexcept>
 
-#include "Singleton.h"
-#include "ClassField.h"
-#include "ClassMethod.h"
+#include "base/Singleton.h"
+#include "reflect/ClassField.h"
+#include "reflect/ClassMethod.h"
 
 namespace luckyao
 {

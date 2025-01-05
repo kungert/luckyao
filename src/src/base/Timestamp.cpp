@@ -1,4 +1,4 @@
-#include "Timestamp.h"
+#include "base/Timestamp.h"
 #include <time.h>
 using namespace luckyao;
 
@@ -35,15 +35,15 @@ std::string Timestamp::toString(std::string format) const
 
     // 获取秒数和毫秒数
     int milliseconds = m_microsecondsSinceEpoch % 1000;
-    snprintf(buf, 128, format.c_str(),
-             tm_time->tm_year + 1900,
-             tm_time->tm_mon + 1,
-             tm_time->tm_mday,
-             tm_time->tm_hour,
-             tm_time->tm_min,
-             tm_time->tm_sec,
-             milliseconds);
+    // snprintf(buf, 128, format.c_str(),
+    //          tm_time->tm_year + 1900,
+    //          tm_time->tm_mon + 1,
+    //          tm_time->tm_mday,
+    //          tm_time->tm_hour,
+    //          tm_time->tm_min,
+    //          tm_time->tm_sec,
+    //          milliseconds);
 
-    // strftime(buf, 128, "%a, %d %b %Y %H:%M:%S GMT", tm_time);
+    strftime(buf, 128, "%a, %d %b %Y %H:%M:%S GMT", tm_time);
     return buf;
 }

@@ -1,6 +1,6 @@
-#include "TcpServer.h"
-#include "Logger.h"
-#include "TcpConnection.h"
+#include "tcp/TcpServer.h"
+#include "base/Logger.h"
+#include "tcp/TcpConnection.h"
 
 #include <strings.h>
 #include <functional>

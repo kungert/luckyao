@@ -6,9 +6,9 @@
 #include <memory>
 #include <mutex>
 
-#include "Uncopyable.h"
-#include "Timestamp.h"
-#include "CurrentThread.h"
+#include "base/Uncopyable.h"
+#include "base/Timestamp.h"
+#include "base/CurrentThread.h"
 
 namespace luckyao
 {

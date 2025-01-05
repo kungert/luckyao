@@ -1,5 +1,5 @@
-#include "Thread.h"
-#include "CurrentThread.h"
+#include "base/Thread.h"
+#include "base/CurrentThread.h"
 
 // #include <semaphore.h>
 #include <mutex>

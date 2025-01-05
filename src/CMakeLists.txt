@@ -6,17 +6,19 @@ project(luckyao)
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -g)
 set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_BUILD_TYPE "Release")
+# set(CMAKE_BUILD_TYPE "Release")
+set(CMAKE_BUILD_TYPE "Debug")
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../bin)
 
 # 头文件目录
-include_directories(${PROJECT_SOURCE_DIR}/include/base)
-include_directories(${PROJECT_SOURCE_DIR}/include/loop)
-include_directories(${PROJECT_SOURCE_DIR}/include/reflect)
-include_directories(${PROJECT_SOURCE_DIR}/include/tcp)
-include_directories(${PROJECT_SOURCE_DIR}/include/http)
+include_directories(${PROJECT_SOURCE_DIR}/include/)
+# include_directories(${PROJECT_SOURCE_DIR}/include/base)
+# include_directories(${PROJECT_SOURCE_DIR}/include/loop)
+# include_directories(${PROJECT_SOURCE_DIR}/include/reflect)
+# include_directories(${PROJECT_SOURCE_DIR}/include/tcp)
+# include_directories(${PROJECT_SOURCE_DIR}/include/http)
 
 # 定义参与编译的源代码文件 
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/base SRC_BASE)
@@ -39,3 +41,4 @@ add_library(luckyao SHARED
 
 
 add_subdirectory(examples)
+add_subdirectory(luckyhttp)

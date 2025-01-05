@@ -8,9 +8,9 @@
 #include <string>
 #include <ostream>
 
-#include "Singleton.h"
-#include "ClassFactory.h"
-#include "ClassField.h"
+#include "base/Singleton.h"
+#include "reflect/ClassFactory.h"
+#include "reflect/ClassField.h"
 
 namespace luckyao
 {

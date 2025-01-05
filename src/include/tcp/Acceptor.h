@@ -1,7 +1,7 @@
 #pragma once
-#include "Uncopyable.h"
-#include "Socket.h"
-#include "Channel.h"
+#include "base/Uncopyable.h"
+#include "base/Socket.h"
+#include "loop/Channel.h"
 
 #include <functional>
 namespace luckyao
