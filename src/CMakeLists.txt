@@ -29,7 +29,7 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/src/reflect SRC_RELECT)
  
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/tcp SRC_TCP)
 
-aux_source_directory(${PROJECT_SOURCE_DIR}/src/http SRC_HTTP)
+aux_source_directory(${PROJECT_SOURCE_DIR}/src/web SRC_HTTP)
 
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/json SRC_JSON)
 
@@ -47,4 +47,4 @@ add_library(luckyao SHARED
 
 
 add_subdirectory(examples)
-add_subdirectory(luckyhttp)
+add_subdirectory(LuckyApp)

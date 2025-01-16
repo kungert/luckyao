@@ -1,18 +1,19 @@
-#include "http/HttpServer.h"
+#include "web/HttpServer.h"
 #include "tcp/TcpServer.h"
 #include "loop/EventLoop.h"
 #include "base/Timestamp.h"
 #include "base/ByteBuffer.h"
 #include "base/Logger.h"
-#include "http/Request.h"
-#include "http/Response.h"
-#include "http/Resource.h"
-#include "http/ResourceHost.h"
+#include "web/Request.h"
+#include "web/Response.h"
+#include "web/Resource.h"
+#include "web/ResourceHost.h"
 #include "reflect/ClassFactory.h"
 #include "reflect/Object.h"
 #include "base/Stringx.h"
 
 #include <string>
+#include "web/HttpServer.h"
 
 using namespace luckyao;
 using namespace std;
@@ -93,7 +94,7 @@ void HttpServer::onConnection(const TcpConnectionPtr &conn)
         LOG_INFO("Connection DOWN : %s", conn->peerAddress().toIpPort().c_str());
     }
 }
-void HttpServer::handleControl(const TcpConnectionPtr &conn, const Request &req)
+bool HttpServer::handleControl(const TcpConnectionPtr &conn, const Request &req)
 {
     Response resp;
     Object *ctrl = nullptr;
@@ -142,75 +143,76 @@ void HttpServer::handleControl(const TcpConnectionPtr &conn, const Request &req)
     }
     catch (std::exception &e)
     {
-        sendStatusResponse(conn, Status(NOT_FOUND));
+        // sendStatusResponse(conn, Status(NOT_FOUND));
         if (ctrl != nullptr)
             delete ctrl;
+        return false;
     }
     sendResponse(conn, resp);
+    return true;
+}
+void HttpServer::handleStaticHtml(const TcpConnectionPtr &conn, Request &req)
+{
+    Response *resp = nullptr;
+    std::string uri = req.getRequestUri();
+    Resource *r = m_resourceHost->getResource(uri);
+    if (r == nullptr)
+    {
+        uri = "/index.html";
+        r = m_resourceHost->getResource(uri);
+    }
+    if (r != nullptr)
+    {
+        resp = new Response();
+        resp->setStatus(Status(OK));
+        resp->addHeader("Content-JsonType", r->getMimeType());
+        resp->addHeader("Content-Length", r->getSize());
+        // Only send a message body if it's a GET request. Never send a body for HEAD
+        if (req.getMethod() == Method(GET))
+            resp->setData(r->getData(), r->getSize());
+
+        bool dc = false;
+
+        // HTTP/1.0 should close the connection by default
+        if (req.getVersion().compare(HTTP_VERSION_10) == 0)
+            dc = true;
+
+        // If Connection: close is specified, the connection should be terminated after the request is serviced
+        string connection_val = req.getHeaderValue("Connection");
+        if (connection_val.compare("close") == 0)
+            dc = true;
+
+        sendResponse(conn, *resp, dc);
+    }
+    else
+    {
+        sendStatusResponse(conn, Status(NOT_FOUND));
+    }
 }
 void HttpServer::onMessage(const TcpConnectionPtr &conn,
                            ByteBuffer &buf,
                            Timestamp time)
 {
-    LOG_INFO("HttpServer::onMessage");
+    LOG_DEBUG("HttpServer::onMessage");
     // std::string msg = buf->retrieveAllAsString();
 
     // conn->send(msg);
     // conn->shutdown();
 
     Request *req = nullptr;
-    Response *resp = nullptr;
     do
     {
         req = new Request(&buf);
         if (req->parse() == false)
             break;
-        std::string uri = req->getRequestUri();
 
-        if (m_bStaticServer)
+        if (!handleControl(conn, *req))
         {
-            Resource *r = m_resourceHost->getResource(uri);
-            if (r == nullptr)
-            {
-                uri = "/index.html";
-                r = m_resourceHost->getResource(uri);
-            }
-            if (r != nullptr)
-            {
-                resp = new Response();
-                resp->setStatus(Status(OK));
-                resp->addHeader("Content-JsonType", r->getMimeType());
-                resp->addHeader("Content-Length", r->getSize());
-                // Only send a message body if it's a GET request. Never send a body for HEAD
-                if (req->getMethod() == Method(GET))
-                    resp->setData(r->getData(), r->getSize());
-
-                bool dc = false;
-
-                // HTTP/1.0 should close the connection by default
-                if (req->getVersion().compare(HTTP_VERSION_10) == 0)
-                    dc = true;
-
-                // If Connection: close is specified, the connection should be terminated after the request is serviced
-                string connection_val = req->getHeaderValue("Connection");
-                if (connection_val.compare("close") == 0)
-                    dc = true;
-
-                sendResponse(conn, *resp, dc);
-            }
-            else
-            {
-                sendStatusResponse(conn, Status(NOT_FOUND));
-            }
-        }
-        else
-        {
-            handleControl(conn, *req);
+            handleStaticHtml(conn, *req);
         }
 
     } while (false);
     delete req;
-    delete resp;
     buf.clear();
 }
 void HttpServer::sendResponse(const TcpConnectionPtr &conn, Response &resp, bool disconnect)

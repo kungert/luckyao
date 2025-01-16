@@ -33,7 +33,8 @@ namespace luckyao
         void sendStatusResponse(const TcpConnectionPtr &conn, int status, std::string msg = "");
 
     private:
-        void handleControl(const TcpConnectionPtr &conn, const Request &req);
+        bool handleControl(const TcpConnectionPtr &conn, const Request &req);
+        void handleStaticHtml(const TcpConnectionPtr &conn, Request &req);
         void onConnection(const TcpConnectionPtr &conn);
         void onMessage(const TcpConnectionPtr &conn,
                        ByteBuffer &buf,

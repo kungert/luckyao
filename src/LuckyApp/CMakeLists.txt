@@ -10,13 +10,13 @@
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++11 -fPIC")
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
-include_directories(${PROJECT_SOURCE_DIR}/luckyhttp/include)
+include_directories(${PROJECT_SOURCE_DIR}/LuckyApp/include)
 
-aux_source_directory(${PROJECT_SOURCE_DIR}/luckyhttp/src HTTP_SRC_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/LuckyApp/src HTTP_SRC_LIST)
 
-add_executable(luckyhttp  ${HTTP_SRC_LIST})
+add_executable(LuckyApp  ${HTTP_SRC_LIST})
 
-target_link_libraries(luckyhttp 
+target_link_libraries(LuckyApp 
     luckyao
     pthread
 )
