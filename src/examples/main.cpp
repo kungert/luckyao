@@ -4,7 +4,7 @@
 #include "base/Timestamp.h"
 #include "base/Logger.h"
 #include "base/Thread.h"
-#include "template/HtmlTemplate.h"
+#include "web/HtmlTemplate.h"
 
 #include <string>
 #include <functional>
@@ -73,8 +73,7 @@ int main()
 
     HtmlTemplate html("username:{{ username }}\n"
                       "parm.list[1][2]: {{parm.list[1][2] }} \n"
-                      "parm.key: {{ parm.key }}",
-                      1); // 参数1表示传入的是模版字符串，0表示传入的是文件名，默认为0
+                      "parm.key: {{ parm.key }}"); // 参数1表示传入的是模版字符串，0表示传入的是文件名，默认为0
 
     Json tmp1(JsonType::Array);
     tmp1.add(1);

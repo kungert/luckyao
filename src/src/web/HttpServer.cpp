@@ -9,7 +9,7 @@
 #include "web/Resource.h"
 #include "web/ResourceHost.h"
 #include "reflect/ClassFactory.h"
-#include "reflect/Object.h"
+#include "reflect/ReflectObject.h"
 #include "base/Stringx.h"
 
 #include <string>
@@ -97,7 +97,7 @@ void HttpServer::onConnection(const TcpConnectionPtr &conn)
 bool HttpServer::handleControl(const TcpConnectionPtr &conn, const Request &req)
 {
     Response resp;
-    Object *ctrl = nullptr;
+    ReflectObject *ctrl = nullptr;
     string path = req.getRequestUri();
     try
     {

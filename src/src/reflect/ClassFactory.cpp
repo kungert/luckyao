@@ -15,7 +15,7 @@ void ClassFactory::registerClass(const string &className, createObject method)
 {
     m_classMap[className] = method;
 }
-Object *ClassFactory::createClass(const string &className)
+ReflectObject *ClassFactory::createClass(const string &className)
 {
     auto it = m_classMap.find(className);
     if (it == m_classMap.end())

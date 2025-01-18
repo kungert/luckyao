@@ -1,8 +1,9 @@
-#include "template/HtmlTemplate.h"
+#include "web/HtmlTemplate.h"
 #include "exception/FileException.h"
-#include "template/TemplateParseException.h"
-#include "template/TemplateNotFoundException.h"
+#include "web/TemplateParseException.h"
+#include "web/TemplateNotFoundException.h"
 #include <memory>
+#include "web/HtmlTemplate.h"
 
 using std::cerr;
 using std::pair;
@@ -71,16 +72,21 @@ T str_parse(const string &str)
     ss >> ans;
     return ans;
 }
-luckyao::HtmlTemplate::HtmlTemplate(const std::string &str, int flag)
+luckyao::HtmlTemplate::HtmlTemplate(const std::string &str)
 {
-    if (flag == 0)
-    {
-        file = fopen(str.c_str(), "rb");
-        if (file == nullptr)
-            throwException(TemplateNotFoundException, "模板文件 " + str + " 不存在");
-    }
-    else
-        tmpl = std::move(const_cast<string &>(str));
+    tmpl = std::move(const_cast<string &>(str));
+}
+luckyao::HtmlTemplate *luckyao::HtmlTemplate::fromPath(const std::string path)
+{
+    luckyao::HtmlTemplate *pRet = new HtmlTemplate();
+    pRet->openTpl(path);
+    return pRet;
+}
+void luckyao::HtmlTemplate::openTpl(const std::string &path)
+{
+    file = fopen(path.c_str(), "rb");
+    if (file == nullptr)
+        throwException(TemplateNotFoundException, "模板文件 " + path + " 不存在");
 }
 double luckyao::HtmlTemplate::calculator(vector<Json> &number, vector<char> &op)
 {

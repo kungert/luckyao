@@ -38,8 +38,16 @@ namespace luckyao
     class HtmlTemplate
     {
     public:
-        explicit HtmlTemplate(const string &str, int flag = 0);
+        explicit HtmlTemplate(const string &str);
+        HtmlTemplate() = default;
 
+        static HtmlTemplate *fromPath(const string path);
+
+        /**
+         * 设置变量替换表
+         * @param obj
+         * @return
+         */
         HtmlTemplate &setValue(Json &&obj)
         {
             // var_tables = std::move(obj.getData());
@@ -72,6 +80,7 @@ namespace luckyao
         }
 
     private:
+        void openTpl(const std::string &path);
         /**
          * 计算器的实现程序，支持+ - * /
          * @param number 操作数列表
@@ -158,34 +167,33 @@ namespace luckyao
          * {{ var*var2+1234 }} 简单运算
          * {{ var+"abcdefg" }} 字符串拼接
          */
-        const regex VAR_REGEX(R"(\{\{\s*([\w"\[\]\.\+\*/\-]+)\s*\}\})");
+        const regex VAR_REGEX(std::string(R"(\{\{\s*([\w"\[\]\.\+\*/\-]+)\s*\}\})"));
 
         /**
          * {% for x in y %}
          */
-        const regex FOR_REGEX(R"(\{%\s*for\s+([\w,]+)\s+in\s+([\w\[\]\.]+)\s*%\})");
+        const regex FOR_REGEX(std::string(R"(\{%\s*for\s+([\w,]+)\s+in\s+([\w\[\]\.]+)\s*%\})"));
 
         // {% endfor %}
-        const regex ENDFOR_REGEX(R"(\{%\s*endfor\s*%\})");
+        const regex ENDFOR_REGEX(std::string(R"(\{%\s*endfor\s*%\})"));
 
         // {% if x %}
-        const regex IF_REGEX(R"(\{%\s*if\s+([\w"\[\]\.\+\*/=!><\-]+)\s*%\})");
+        const regex IF_REGEX(std::string(R"(\{%\s*if\s+([\w"\[\]\.\+\*/=!><\-]+)\s*%\})"));
 
         // {% endif %}
-        const regex ENDIF_REGEX(R"(\{%\s*endif\s*%\})");
+        const regex ENDIF_REGEX(std::string(R"(\{%\s*endif\s*%\})"));
 
         // { % else %}
-        const regex ELSE_REGEX(R"(\{%\s*else\s*%\})");
+        const regex ELSE_REGEX(std::string(R"(\{%\s*else\s*%\})"));
 
         // {% include 'tmpl2.html' %}
-        const regex INCLUDE_REGEX(R"(\{%\s*include\s*'([\w\.]+)'\s*%\})");
+        const regex INCLUDE_REGEX(std::string(R"(\{%\s*include\s*'([\w\.]+)'\s*%\})"));
 
         // if表达式解析
         // abcd==efgh 匹配出abcd和efgh
-        const regex EQUAL_REGEX(R"(([\w"\[\]\.\+\*/\-]+)(==|<|>|!=)([\w"\[\]\.\+\*/\-]+))");
+        const regex EQUAL_REGEX(std::string(R"(([\w"\[\]\.\+\*/\-]+)(==|<|>|!=)([\w"\[\]\.\+\*/\-]+))"));
 
         // !abcdef 匹配出abcdef
-        const regex NOT_REGEX(R"(!([\w"\[\]\.\+\*/\-]+))");
+        const regex NOT_REGEX(std::string(R"(!([\w"\[\]\.\+\*/\-]+))"));
     };
-
-} // namespace name
+}

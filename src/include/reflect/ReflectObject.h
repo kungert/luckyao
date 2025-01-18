@@ -14,12 +14,12 @@
 
 namespace luckyao
 {
-    class Object
+    class ReflectObject
     {
     public:
-        Object();
+        ReflectObject();
 
-        virtual ~Object();
+        virtual ~ReflectObject();
 
         void setClassName(const std::string &className);
         const std::string &getClassName() const;
@@ -43,7 +43,7 @@ namespace luckyao
     };
 
     template <typename T>
-    void Object::get(const std::string &fieldName, T &value)
+    void ReflectObject::get(const std::string &fieldName, T &value)
     {
         ClassField *field = Singleton<ClassFactory>::instance()->getClassField(m_className, fieldName);
         if (field == nullptr)
@@ -55,7 +55,7 @@ namespace luckyao
     }
 
     template <typename T>
-    void Object::set(const std::string &fieldName, const T &value)
+    void ReflectObject::set(const std::string &fieldName, const T &value)
     {
         ClassField *field = Singleton<ClassFactory>::instance()->getClassField(m_className, fieldName);
         if (field != nullptr)
@@ -67,7 +67,7 @@ namespace luckyao
     }
 
     template <typename R, typename... Args>
-    R Object::call(const std::string &methodName, Args &...args)
+    R ReflectObject::call(const std::string &methodName, Args &...args)
     {
         ClassFactory *factory = Singleton<ClassFactory>::instance();
         ClassMethod *method = factory->getClassMethod(m_className, methodName);

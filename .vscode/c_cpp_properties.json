@@ -8,7 +8,7 @@
       "includePath": [
         "/opt/ros/foxy/include/**",
         "/home/kunger/my/luckyao/src/include/**",
-        "/home/kunger/my/luckyao/src/luckyhttp/include/**",
+        "/home/kunger/my/luckyao/src/LuckyApp/include/**",
         "/usr/include/**"
       ],
       "name": "ROS",

@@ -19,9 +19,9 @@
 
 namespace luckyao
 {
-    class Object;
+    class ReflectObject;
 
-    typedef Object *(*createObject)(void);
+    typedef ReflectObject *(*createObject)(void);
 
     class ClassFactory
     {
@@ -30,7 +30,7 @@ namespace luckyao
     public:
         // reflect class
         void registerClass(const std::string &className, createObject method);
-        Object *createClass(const std::string &className);
+        ReflectObject *createClass(const std::string &className);
 
         // reflect class field
         void registerClassField(const std::string &className, const std::string &fieldName, const std::string &fieldType, std::size_t offset);

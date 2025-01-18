@@ -33,7 +33,6 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/src/web SRC_HTTP)
 
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/json SRC_JSON)
 
-aux_source_directory(${PROJECT_SOURCE_DIR}/src/template SRC_TEMPLATE)
 
 add_library(luckyao SHARED 
     ${SRC_BASE}
@@ -42,7 +41,6 @@ add_library(luckyao SHARED
     ${SRC_TCP}
     ${SRC_HTTP}
     ${SRC_JSON}
-    ${SRC_TEMPLATE}
     )
 
 
