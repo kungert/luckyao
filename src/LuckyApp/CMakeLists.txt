@@ -13,8 +13,11 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/LuckyApp/include)
 
 aux_source_directory(${PROJECT_SOURCE_DIR}/LuckyApp/src HTTP_SRC_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/LuckyApp/controller SRC_CONTROLLER)
 
-add_executable(LuckyApp  ${HTTP_SRC_LIST})
+add_executable(LuckyApp 
+    ${HTTP_SRC_LIST}
+    ${SRC_CONTROLLER})
 
 target_link_libraries(LuckyApp 
     luckyao

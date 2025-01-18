@@ -3,6 +3,7 @@
 #include "Request.h"
 #include "Response.h"
 #include "reflect/Object.h"
+#include "reflect/ClassRegister.h"
 
 namespace luckyao
 {

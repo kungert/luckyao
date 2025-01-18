@@ -129,22 +129,29 @@ namespace luckyao
         {
             return m_version;
         }
-
-        void setData(char *d, unsigned int len)
+        void setBody(std::string &body)
         {
-            m_data = d;
-            m_dataLen = len;
+            m_body = body;
         }
-
-        char *getData()
+        std::string &getBody()
         {
-            return m_data;
+            return m_body;
         }
+        // void setData(char *d, unsigned int len)
+        // {
+        //     m_data = d;
+        //     m_dataLen = len;
+        // }
 
-        unsigned int getDataLength()
-        {
-            return m_dataLen;
-        }
+        // char *getData()
+        // {
+        //     return m_data;
+        // }
+
+        // unsigned int getDataLength()
+        // {
+        //     return m_dataLen;
+        // }
 
     protected:
         virtual void init();
@@ -160,5 +167,6 @@ namespace luckyao
         // Message Body Data (Resource in the case of a response, extra parameters in the case of a request)
         char *m_data;
         unsigned int m_dataLen;
+        std::string m_body;
     };
 } // namespace http

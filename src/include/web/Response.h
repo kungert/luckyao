@@ -22,6 +22,10 @@ namespace luckyao
 
         // Accessors & Mutators
 
+        void json(std::string data);
+
+        void html(std::string data);
+
         void setStatus(int scode)
         {
             m_status = scode;

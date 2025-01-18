@@ -102,10 +102,12 @@ void Response::prepare()
     putHeaders();
 
     // If theres body data, add it now
-    if ((m_data != NULL) && m_dataLen > 0)
+    // if ((m_data != NULL) && m_dataLen > 0)
+    if (!m_body.empty())
     {
-        putBytes(m_data, m_dataLen);
+        putBytes(m_body.c_str(), m_body.length());
     }
+    putLine();
 
     // Allocate space for the returned byte array and return it
     // byte* createRetData = new byte[size()];
@@ -133,4 +135,18 @@ bool Response::parse()
         return false;
 
     return true;
+}
+void luckyao::Response::json(std::string data)
+{
+    setStatus(Status(OK));
+    addHeader("Content-Type", "application/json");
+    addHeader("Content-Length", data.length());
+    setBody(data);
+}
+void luckyao::Response::html(std::string data)
+{
+    setStatus(Status(OK));
+    addHeader("Content-Type", "text/html");
+    addHeader("Content-Length", data.length());
+    setBody(data);
 }

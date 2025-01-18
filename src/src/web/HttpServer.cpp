@@ -132,12 +132,12 @@ bool HttpServer::handleControl(const TcpConnectionPtr &conn, const Request &req)
             ctrl = factory->createClass(classname);
             if (ctrl == nullptr)
             {
-                sendStatusResponse(conn, Status(NOT_FOUND));
+                // sendStatusResponse(conn, Status(NOT_FOUND));
+                return false;
             }
             else
             {
                 ctrl->call(methodname, req, resp);
-                delete ctrl;
             }
         }
     }
@@ -149,6 +149,8 @@ bool HttpServer::handleControl(const TcpConnectionPtr &conn, const Request &req)
         return false;
     }
     sendResponse(conn, resp);
+    if (ctrl != nullptr)
+        delete ctrl;
     return true;
 }
 void HttpServer::handleStaticHtml(const TcpConnectionPtr &conn, Request &req)
@@ -156,20 +158,24 @@ void HttpServer::handleStaticHtml(const TcpConnectionPtr &conn, Request &req)
     Response *resp = nullptr;
     std::string uri = req.getRequestUri();
     Resource *r = m_resourceHost->getResource(uri);
-    if (r == nullptr)
-    {
-        uri = "/index.html";
-        r = m_resourceHost->getResource(uri);
-    }
+    // if (r == nullptr)
+    // {
+    //     uri = "/index.html";
+    //     r = m_resourceHost->getResource(uri);
+    // }
     if (r != nullptr)
     {
         resp = new Response();
         resp->setStatus(Status(OK));
-        resp->addHeader("Content-JsonType", r->getMimeType());
+        resp->addHeader("Content-Type", r->getMimeType());
         resp->addHeader("Content-Length", r->getSize());
         // Only send a message body if it's a GET request. Never send a body for HEAD
         if (req.getMethod() == Method(GET))
-            resp->setData(r->getData(), r->getSize());
+        {
+            std::string str(r->getData(), r->getSize());
+            resp->setBody(str);
+        }
+        // resp->setData(r->getData(), r->getSize());
 
         bool dc = false;
 
@@ -217,8 +223,6 @@ void HttpServer::onMessage(const TcpConnectionPtr &conn,
 }
 void HttpServer::sendResponse(const TcpConnectionPtr &conn, Response &resp, bool disconnect)
 {
-    // Server Header
-    resp.addHeader("Server", "wms/1.0");
 
     // Time stamp the response with the Date header
     // std::string tstr;
@@ -231,6 +235,8 @@ void HttpServer::sendResponse(const TcpConnectionPtr &conn, Response &resp, bool
     // resp.addHeader("Date", tbuf);
     Timestamp now;
     resp.addHeader("Date", now.toString("%a, %d %b %Y %H:%M:%S GMT"));
+    // Server Header
+    resp.addHeader("Server", "luckyao/1.0");
 
     // Include a Connection: close header if this is the final response sent by the server
     if (disconnect)
@@ -264,11 +270,11 @@ void HttpServer::sendStatusResponse(const TcpConnectionPtr &conn, int status, st
     memset(sdata, '\0', slen);
     strncpy_s(sdata, slen, body.c_str(), slen);*/
 
-    resp->addHeader("Content-JsonType", "text/plain");
+    resp->addHeader("Content-Type", "text/plain");
     resp->addHeader("Content-Length", slen);
     resp->addHeader("Connection", "close");
     // resp->setData((byte*)sdata, slen);
-    resp->setData((char *)body.c_str(), slen);
+    resp->setBody(body);
 
     sendResponse(conn, *resp, true);
 

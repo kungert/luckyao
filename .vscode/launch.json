@@ -8,7 +8,7 @@
             "name": "(gdb) 附加",
             "type": "cppdbg",
             "request": "attach",
-            "program": "${workspaceFolder}/bin/luckyhttp",
+            "program": "${workspaceFolder}/bin/LuckyApp",
             "MIMode": "gdb",
             "setupCommands": [
                 {
