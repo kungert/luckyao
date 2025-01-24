@@ -146,7 +146,7 @@ void luckyao::Response::json(std::string data)
 void luckyao::Response::html(std::string data)
 {
     setStatus(Status(OK));
-    addHeader("Content-Type", "text/html");
+    addHeader("Content-Type", "text/html; charset=UTF-8");
     addHeader("Content-Length", data.length());
     setBody(data);
 }

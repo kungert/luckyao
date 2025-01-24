@@ -25,6 +25,11 @@ void Index::index(const Request &req, Response &resp)
     // std::string json = R"({"name":"Alice","age":25,"isStudent":false})";
     // resp.json(json);
     // LOG_DEBUG("Index::index :%d", body.length());
+
+    Json obj = {
+        {"username", "你好啊111"},
+    };
+    m_htmlTpl->setValue(obj);
     std::string body = m_htmlTpl->render();
     LOG_DEBUG("Index::index :%s", body.c_str());
     resp.html(body);
